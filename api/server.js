@@ -1,6 +1,7 @@
 import express from 'express';
 import router from 'express-enrouten';
 import routes from './routes';
+import socketServer from './socketServer';
 
 const port = process.env.PORT || 3333;
 
@@ -13,5 +14,6 @@ const server = express()
     process.stdout.write('Listening on port: ' + port);
   });
 
+socketServer(server);
 
 export default server;
