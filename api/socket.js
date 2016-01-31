@@ -6,7 +6,7 @@ const EmitRoom = room.sendRoom;
 export default function (ws) {
   ws.on('message', (msg) => {
     const { action, roomKey, data } = JSON.parse(msg);
-
+    console.log('recieved: ' + msg);
     switch(action){
       case 'CREATE_ROOM': Emit('ROOM_KEY', room.createRoom(), ws); break;
 
@@ -15,15 +15,15 @@ export default function (ws) {
     //  case 'BEGIN': EmitRoom('BEGIN', game.getJudge(roomKey), roomKey); break;
 
       case 'SEND_PROMPT': EmitRoom('GET_PROMPT', data, roomKey); break;
-/*
+
       case 'SEND_DANCE':
-        if (!game.storeDance(data)) {
+        if (!room.storeDance(data)) {
           Emit('DANCE_STORED', {}, ws);
         } else {
-          EmitRoom('START_JUDGING', game.getAll);
+          EmitRoom('START_JUDGING', room.getAllDances(key));
         }
         break;
-*/
+
       case 'PICK_WINNER': EmitRoom('ROUND_WINNER', data, roomKey); break;
     }
   });
