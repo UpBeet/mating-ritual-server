@@ -41,7 +41,7 @@ export const send = (action, data, ws) => {
 };
 
 export const sendRoom = (action, data, roomKey) => {
-  const sendMsg = R.curry(send, msg);
+  const sendMsg = R.curry(send, action, data);
   R.map(sendMsg, rooms[roomKey]);
   return rooms;
 };
