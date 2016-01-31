@@ -20,6 +20,7 @@ export const createRoom = () => {
   rooms[roomKey] = {
     currentJudge: 0,
     users: [],
+    dances: [],
   };
   return roomKey;
 };
@@ -27,7 +28,7 @@ export const createRoom = () => {
 export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
   rooms[roomKey].users.push(socket);
-  return rooms[roomKey].length;
+  return rooms[roomKey].users.length;
 };
 
 export const leaveRoom = (roomKey, userKey) => {
@@ -45,10 +46,23 @@ export const send = (action, data, ws) => {
   console.log(msg);
   ws.send(msg);
 };
+// what should this return
+export const storeDance = (roomKey, userKey, dance) => {
+  const currRoom = rooms[roomKey];
+  currRoom.dances[userKey] = dance;
+  if( currRoom.dances.length === currRoom.users.length )
+    return true;
+  else
+    return false;
+};
+
+export const getAllDances = (roomKey) => {
+  return rooms[roomKey].dances;
+};
 
 export const sendRoom = (action, data, roomKey) => {
   console.log('action: ' + action);
   const sendMsg = R.curry(send, action, data);
-  R.map(sendMsg, rooms[roomKey]);
+  R.map(sendMsg, rooms[roomKey].users);
   return rooms;
 };
