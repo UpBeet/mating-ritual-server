@@ -6,7 +6,7 @@ export default function (ws) {
 
     switch(event.action){
       case 'CREATE_ROOM': room.sendRoom('ROOM_KEY', {}, room.createRoom());
-      case 'JOIN_ROOM': rooms.sendRoom('JOINED_ROOM', room.joinRoom(event.data, ws), key);
+      case 'JOIN_ROOM': room.sendRoom('JOINED_ROOM', room.joinRoom(event.data, ws), key);
     }
   });
 
