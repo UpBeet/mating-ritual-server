@@ -20,6 +20,7 @@ export const createRoom = () => {
   rooms[roomKey] = {
     currentJudge: 0,
     users: [],
+    winners: [],
     dances: [],
   };
   return roomKey;
@@ -30,6 +31,7 @@ export const users = (key) => rooms[key].users
 export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
   rooms[roomKey].users.push(socket);
+  rooms[roomKey].winners.push(0);
   return rooms[roomKey].users.length;
 };
 
@@ -65,10 +67,11 @@ export const getAllDances = (roomKey) => {
 
 export const sendRoom = (action, data, roomKey) => {
   console.log('action: ' + action);
-  console.log('users: ');
-  console.log(users(roomKey).length);
-
   users(roomKey).map((u) => send(action, data, u));
 
   return rooms;
 };
+
+export const getJudge = (roomKey) => (rooms[roomKey].currentJudge + 1) % users(roomKey).length
+
+export const selectWinner = (roomKey, userId) => rooms[roomKey].winners[userId]++

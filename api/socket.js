@@ -12,7 +12,7 @@ export default function (ws) {
 
       case 'JOIN_ROOM': EmitRoom('JOINED_ROOM', room.joinRoom(roomKey, ws), roomKey); break;
 
-    //  case 'BEGIN': EmitRoom('BEGIN', game.getJudge(roomKey), roomKey); break;
+      case 'BEGIN': EmitRoom('BEGIN', game.getJudge(roomKey), roomKey); break;
 
       case 'SEND_PROMPT': EmitRoom('GET_PROMPT', data, roomKey); break;
 
@@ -24,7 +24,14 @@ export default function (ws) {
         }
         break;
 
-      case 'PICK_WINNER': EmitRoom('ROUND_WINNER', data, roomKey); break;
+      case 'PICK_WINNER':
+        if (room.selectWinner(roomKey, data) === 3) {
+          EmitRoom('GAME_WINNER', data, roomKey);
+        } else {
+          EmitRoom('ROUND_WINNER', data, roomKey);
+        }
+
+        break;
     }
   });
 
