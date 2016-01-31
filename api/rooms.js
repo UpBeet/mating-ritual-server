@@ -72,6 +72,6 @@ export const sendRoom = (action, data, roomKey) => {
   return rooms;
 };
 
-export const getJudge = (roomKey) => (rooms[roomKey].currentJudge + 1) % users(roomKey).length
+export const getJudge = (roomKey) => (rooms[roomKey].currentJudge++) % users(roomKey).length
 
 export const selectWinner = (roomKey, userId) => rooms[roomKey].winners[userId]++
