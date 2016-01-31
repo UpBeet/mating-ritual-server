@@ -3,7 +3,7 @@ import keyGen from 'randomstring';
 
 const rooms = {};
 
-export default {
+const room = {
   genRoomKey: () => {
     return keyGen.generate({
       length: 5,
@@ -41,3 +41,5 @@ export default {
     return rooms;
   },
 };
+
+export default room;
