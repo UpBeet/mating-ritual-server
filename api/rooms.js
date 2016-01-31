@@ -5,7 +5,7 @@ const rooms = {};
 
 export const genRoomKey = () => {
   return keyGen.generate({
-    length: 5,
+    length: 4,
     charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   });
 };
