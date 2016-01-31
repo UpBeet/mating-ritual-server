@@ -17,18 +17,21 @@ export const createRoom = () => {
     roomKey = genRoomKey();
   }
 
-  rooms[roomKey] = [];
+  rooms[roomKey] = {
+    currentJudge: 0,
+    users: [],
+  };
   return roomKey;
 };
 
 export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
-  rooms[roomKey].push(socket);
+  rooms[roomKey].users.push(socket);
   return rooms[roomKey].length;
 };
 
 export const leaveRoom = (roomKey, userKey) => {
-  delete rooms[roomKey][userKey];
+  delete rooms[roomKey].users[userKey];
   return rooms;
 };
 
