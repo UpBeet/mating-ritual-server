@@ -30,6 +30,9 @@ export const users = (key) => rooms[key].users
 
 export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
+
+  if (rooms[roomKey] === undefined) return -1;
+
   rooms[roomKey].users.push(socket);
   rooms[roomKey].winners.push(0);
   return rooms[roomKey].users.length - 1;
