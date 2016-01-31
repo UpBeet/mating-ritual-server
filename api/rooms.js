@@ -11,6 +11,7 @@ export const genRoomKey = () => {
 };
 
 export const createRoom = () => {
+  console.log('CREATE ROOM');
   let roomKey = genRoomKey();
   while(rooms[roomKey] !== undefined) {
     roomKey = genRoomKey();
@@ -21,6 +22,7 @@ export const createRoom = () => {
 };
 
 export const joinRoom = (roomKey, socket) => {
+  console.log('JOIN ROOM');
   rooms[roomKey].push(socket);
   return rooms[roomKey].length;
 };
@@ -36,11 +38,13 @@ export const deleteRoom = (roomKey) => {
 };
 
 export const send = (action, data, ws) => {
-  ws.send(JSON.stringify({ action, data }));
-  return msg;
+  const msg = JSON.stringify({ action, data });
+  console.log(msg);
+  ws.send(msg);
 };
 
 export const sendRoom = (action, data, roomKey) => {
+  console.log('action: ' + action);
   const sendMsg = R.curry(send, action, data);
   R.map(sendMsg, rooms[roomKey]);
   return rooms;
