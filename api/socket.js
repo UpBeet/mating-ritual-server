@@ -11,7 +11,14 @@ export default function (ws) {
     switch(action){
       case 'CREATE_ROOM': Emit('ROOM_KEY', room.createRoom(), ws); break;
 
-      case 'JOIN_ROOM': EmitRoom('JOINED_ROOM', room.joinRoom(roomKey, ws), roomKey); break;
+      case 'JOIN_ROOM':
+        const uid = room.joinRoom(roomKey, ws);
+        if(uid === -1) {
+          Emit('JOINED_ROOM', uid, ws);
+        } else {
+          EmitRoom('JOINED_ROOM', uid, roomKey);
+        }
+        break;
 
       case 'BEGIN': EmitRoom('BEGIN', room.getJudge(roomKey), roomKey); break;
 
