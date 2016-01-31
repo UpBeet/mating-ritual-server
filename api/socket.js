@@ -5,7 +5,7 @@ export default function (ws) {
     const event = JSON.parse(msg);
 
     switch(event.action){
-      case 'CREATE_ROOM': room.sendRoom('ROOM_KEY', {}, room.createRoom()); break;
+      case 'CREATE_ROOM': room.send('ROOM_KEY', room.createRoom(), ws); break;
       case 'JOIN_ROOM': room.sendRoom('JOINED_ROOM', room.joinRoom(event.data, ws), key); break;
     }
   });
