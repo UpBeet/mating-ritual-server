@@ -15,7 +15,7 @@ export function join (key, ws) {
   console.log('join room');
   const res = {
     action: 'JOINED_ROOM',
-    data: rooms.joinRoom(key, ws);
+    data: rooms.joinRoom(key, ws),
   };
 
   rooms.sendRoom(res, key);

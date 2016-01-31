@@ -31,11 +31,11 @@ export default {
     delete rooms[roomKey];
     return rooms;
   },
-  send: (msg, ws) => {
-    ws.send(JSON.stringify(msg));
+  send: (action, data, ws) => {
+    ws.send(JSON.stringify({ action, data }));
     return msg;
   },
-  sendRoom: (msg, roomKey) => {
+  sendRoom: (action, data, roomKey) => {
     const sendMsg = R.curry(this.send, msg);
     R.map(sendMsg, rooms[roomKey]);
     return rooms;
