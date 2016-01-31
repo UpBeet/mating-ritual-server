@@ -66,8 +66,9 @@ export const getAllDances = (roomKey) => {
 export const sendRoom = (action, data, roomKey) => {
   console.log('action: ' + action);
   console.log('users: ');
-  console.log(users(roomKey));
-  const sendMsg = R.curry(send, action, data);
-  R.map(sendMsg, users(roomKey));
+  console.log(users(roomKey).length);
+
+  users(roomKey).map((u) => send(action, data, u));
+
   return rooms;
 };
