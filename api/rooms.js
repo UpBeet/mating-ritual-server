@@ -32,7 +32,7 @@ export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
   rooms[roomKey].users.push(socket);
   rooms[roomKey].winners.push(0);
-  return rooms[roomKey].users.length;
+  return rooms[roomKey].users.length - 1;
 };
 
 export const leaveRoom = (roomKey, userKey) => {
