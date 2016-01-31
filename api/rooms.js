@@ -1,16 +1,27 @@
 import R from 'ramda';
+import keyGen from 'randomstring';
 
 const rooms = {};
 
 export default {
-  createRoom: (roomKey) => {
-    if (rooms[roomKey]) throw new Error('Room already exists');
-    rooms[roomKey] = {};
-    return rooms;
+  genRoomKey: () => {
+    return keyGen.generate({
+      length: 5,
+      charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    });
   },
-  joinRoom: (roomKey, userKey, socket) => {
-    rooms[roomKey][userKey] = socket;
-    return rooms;
+  createRoom: () => {
+    let roomKey = this.genRoomKey();
+    while(rooms[roomKey] !== undefined) {
+      roomKey = this.genRoomKey();
+    }
+
+    rooms[roomKey] = [];
+    return roomKey;
+  },
+  joinRoom: (roomKey, socket) => {
+    rooms[roomKey].push(socket);
+    return rooms[roomKey].length;
   },
   leaveRoom: (roomKey, userKey) => {
     delete rooms[roomKey][userKey];
