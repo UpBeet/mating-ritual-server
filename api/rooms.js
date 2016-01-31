@@ -21,7 +21,7 @@ export default {
     return rooms;
   },
   send: (msg, ws) => {
-    ws.send(msg);
+    ws.send(JSON.stringify(msg));
     return msg;
   },
   sendRoom: (msg, roomKey) => {
