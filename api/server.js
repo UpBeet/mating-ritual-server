@@ -1,34 +1,28 @@
-/*
-import express from 'express';
-import router from 'express-enrouten';
-import routes from './routes';
-import socketServer from './socketServer';
+var WebSocketServer = require("ws").Server
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 5000
 
-const port = process.env.PORT || 3333;
+app.use(express.static(__dirname + "/"))
 
-// Setup server
-const server = express()
-  .use(router(routes))
-  .set('port', port)
-  .listen(port, (e) => {
-    if (e) throw e;
-    process.stdout.write('Listening on port: ' + port);
-  });
+var server = http.createServer(app)
+server.listen(port)
 
-socketServer(server);
+console.log("http server listening on %d", port)
 
-export default server;
-*/
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
 
-import { Server as WebSocketServer } from 'ws';
+wss.on("connection", function(ws) {
+  var id = setInterval(function() {
+    ws.send(JSON.stringify(new Date()), function() {  })
+  }, 1000)
 
-const ws = new WebSocketServer({ port: process.env.PORT || 8080 });
+  console.log("websocket connection open")
 
-ws.on('connection', (socket) => {
-  console.log('socket connected');
-  socket.on('message', (msg) => {
-    console.log(msg.toString());
-  });
-
-  socket.send('{ "msg": "THISISALLJOESFAULT" }');
-});
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
+})
