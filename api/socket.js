@@ -1,4 +1,4 @@
-import * as room from './rooms';
+import room from './rooms';
 
 export default function (ws) {
   ws.on('message', (msg) => {
