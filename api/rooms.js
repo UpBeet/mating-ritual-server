@@ -63,7 +63,7 @@ export const dances = (key) => rooms[key].dances
 // what should this return
 export const storeDance = (roomKey, userKey, dance) => {
   dances(roomKey)[userKey] = dance;
-  if( dances(roomKey).length === users(roomKey).length )
+  if( dances(roomKey).length >= users(roomKey).length - 1 )
     return true;
   else
     return false;
