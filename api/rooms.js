@@ -25,6 +25,8 @@ export const createRoom = () => {
   return roomKey;
 };
 
+export const users = (key) => rooms[key].users
+
 export const joinRoom = (roomKey, socket) => {
   console.log('JOIN ROOM');
   rooms[roomKey].users.push(socket);
@@ -46,11 +48,12 @@ export const send = (action, data, ws) => {
   console.log(msg);
   ws.send(msg);
 };
+
+export const dances = (key) => rooms[key].dances
 // what should this return
 export const storeDance = (roomKey, userKey, dance) => {
-  const currRoom = rooms[roomKey];
-  currRoom.dances[userKey] = dance;
-  if( currRoom.dances.length === currRoom.users.length )
+  dances(roomKey)[userKey] = dance;
+  if( dances(roomKey).length === users(roomKey).length )
     return true;
   else
     return false;
