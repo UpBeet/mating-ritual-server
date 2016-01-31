@@ -35,6 +35,11 @@ export const joinRoom = (roomKey, socket) => {
   return rooms[roomKey].users.length;
 };
 
+export const resetRoom = (roomKey) => {
+  R.map((x) => { return 0; }, rooms[roomKey].winners);
+  rooms[roomKey].dances = [];
+};
+
 export const leaveRoom = (roomKey, userKey) => {
   delete rooms[roomKey].users[userKey];
   return rooms;
@@ -74,4 +79,7 @@ export const sendRoom = (action, data, roomKey) => {
 
 export const getJudge = (roomKey) => (rooms[roomKey].currentJudge++) % users(roomKey).length
 
-export const selectWinner = (roomKey, userId) => rooms[roomKey].winners[userId]++
+export const selectWinner = (roomKey, userId) => {
+  rooms[roomKey].winners[userId]++
+  rooms[roomKey].dances = [];
+};
