@@ -5,7 +5,7 @@ const EmitRoom = room.sendRoom;
 
 export default function (ws) {
   ws.on('message', (msg) => {
-    const { action, roomKey, data } = JSON.parse(msg);
+    const { action, roomKey, data, user } = JSON.parse(msg);
     console.log('recieved: ' + msg);
 
     switch(action){
@@ -25,10 +25,10 @@ export default function (ws) {
       case 'SEND_PROMPT': EmitRoom('GET_PROMPT', data, roomKey); break;
 
       case 'SEND_DANCE':
-        if (!room.storeDance(data)) {
+        if (!room.storeDance(roomKey, user, data)) {
           Emit('DANCE_RECEIVED', {}, ws);
         } else {
-          EmitRoom('START_JUDGING', room.getAllDances(key));
+          EmitRoom('START_JUDGING', room.getAllDances(key), roomKey);
         }
         break;
 
@@ -36,7 +36,7 @@ export default function (ws) {
         if (room.selectWinner(roomKey, data) >= 3) {
           EmitRoom('GAME_WINNER', data, roomKey);
         } else {
-          EmitRoom('ROUND_WINNER', data, roomKey);
+          EmitRoom('ROUND_WINNER', data, roomKey, roomKey);
         }
 
         break;
